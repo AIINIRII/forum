@@ -1,0 +1,81 @@
+server:
+  port: 8085
+
+secure:
+  ignored:
+    urls:
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /druid/**
+      - /actuator/**
+      - /sso/**
+      - /home/**
+      - /product/**
+      - /brand/**
+
+jwt:
+  tokenHeader: Authorization
+  secret: forum-secret
+  expiration: 604800
+  tokenHead: 'Bearer '
+
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:xyz/**/mapper/*.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.159.138:3306/forum
+    username: root
+    password: root
+
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+
+  data:
+    mongodb:
+      host: 192.168.159.138
+      port: 27017
+      database: forum
+
+  redis:
+    host: 192.168.159.138 # Redis服务器地址
+    database: 1 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 1000ms # 连接超时时间（毫秒）
+
+  rabbitmq:
+    host: 192.168.159.138
+    port: 5672
+    virtual-host: /forum
+    username: forum
+    password: forum
+
+redis:
+  database: forum
+  key:
+    authCode: 'ums:authCode'
+    orderId: 'oms:orderId'
+    member: 'ums:member'
+  expire:
+    authCode: 90 # 验证码超期时间
+    common: 86400 # 24小时
+
+debug: true
